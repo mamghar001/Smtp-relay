@@ -1,0 +1,25 @@
+[Unit]
+Description=Haraka SMTP Relay with Mailbox Rotation
+Documentation=https://haraka.github.io/
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/etc/haraka
+ExecStart=/usr/bin/haraka -c /etc/haraka
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=5
+KillMode=process
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=haraka
+
+# Security hardening (optional - adjust as needed)
+# NoNewPrivileges=true
+# ProtectSystem=strict
+# ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

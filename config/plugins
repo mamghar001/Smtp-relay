@@ -1,0 +1,17 @@
+# Core plugins
+helo.checks
+tls
+
+# Mailbox rotation plugin (MUST be before auth/flat_file)
+rotate_senders
+
+# Authentication plugin
+auth/flat_file
+
+# Optional plugins (uncomment to enable)
+# human_delay       # Add random delays between sends
+# data.signatures   # Block emails with spam signatures
+# delay_deny        # Delay rejection responses
+
+# Logging
+process_title
