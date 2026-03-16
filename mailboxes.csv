@@ -1,0 +1,5 @@
+host,user,pass,displayName
+mail.example1.com,sender1@example1.com,password123,John Smith
+mail.example1.com,sender2@example1.com,password456,Jane Doe
+mail.example2.com,sender3@example2.com,password789,Bob Wilson
+mail.example2.com,sender4@example2.com,password101,Alice Brown

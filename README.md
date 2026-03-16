@@ -25,79 +25,62 @@ Destination Inbox
 
 ## Installation
 
-### 1. Install Node.js
+### Quick Install (One Command)
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-apt-get install -y nodejs
+# Clone the repo
+git clone https://github.com/mamghar001/Smtp-relay.git
+cd Smtp-relay
+
+# Run installer
+sudo ./install.sh
 ```
 
-### 2. Install Haraka
+The installer will:
+- ✅ Install Node.js 22
+- ✅ Install Haraka from GitHub
+- ✅ Set up all configuration files
+- ✅ Install web monitoring plugins (graph + watch)
+- ✅ Create helper scripts (haraka-stats, haraka-import, etc.)
+- ✅ Set up systemd service
 
+### Post-Install Configuration
+
+**1. Add relay authentication:**
 ```bash
-cd /opt
-git clone https://github.com/haraka/Haraka.git haraka-src
-cd haraka-src
-npm install
-npm link
+nano /etc/haraka/config/auth_flat_file.ini
 ```
-
-### 3. Create Haraka Configuration
-
-```bash
-mkdir -p /etc/haraka
-cd /etc/haraka
-haraka -i /etc/haraka
-```
-
-### 4. Copy Plugin Files
-
-```bash
-# Copy rotate_senders.js to plugins directory
-cp rotate_senders.js /etc/haraka/plugins/
-
-# Copy config files
-cp plugins /etc/haraka/config/
-cp auth_flat_file.ini /etc/haraka/config/
-```
-
-### 5. Configure Plugins
-
-Edit `/etc/haraka/config/plugins`:
-
-```
-# Core plugins
-helo.checks
-tls
-rotate_senders
-auth/flat_file
-
-# Optional: Add delay between sends
-# human_delay
-
-# Logging
-process_title
-```
-
-### 6. Configure Authentication
-
-Edit `/etc/haraka/config/auth_flat_file.ini`:
-
 ```ini
 [core]
 methods = PLAIN,CRAM-MD5
 constrain_sender = false
 
 [users]
-# Add your relay authentication credentials
 relay@yourdomain.com = YourStrongPassword123!
 ```
 
-### 7. Configure Mailbox Pool
+**2. Add your mailboxes (two options):**
 
-Edit `/etc/haraka/plugins/rotate_senders.js` and add your mailboxes:
+*Option A: Edit JSON directly*
+```bash
+nano /etc/haraka/config/mailboxes.json
+```
 
-```javascript
+*Option B: Import from CSV*
+```bash
+# Create CSV file (see mailboxes.csv for format)
+haraka-import mailboxes.csv
+```
+
+**3. Start the service:**
+```bash
+systemctl start haraka
+```
+
+**4. Check status:**
+```bash
+haraka-stats
+```
 const mailboxes = [
     {host: 'mail.domain1.com', user: 'sender1@domain1.com', pass: 'password1'},
     {host: 'mail.domain2.com', user: 'sender2@domain2.com', pass: 'password2'},
