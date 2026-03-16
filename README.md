@@ -204,6 +204,32 @@ swaks --to recipient@example.com \
 
 ## Monitoring
 
+### Web Dashboard (NEW!)
+
+Haraka now includes built-in web monitoring:
+
+| Plugin | URL | Description |
+|--------|-----|-------------|
+| **Watch** | `http://YOUR_IP:8080/watch/` | Real-time SMTP traffic with live connections |
+| **Graph** | `http://YOUR_IP:8080/graph` | Historical email statistics over time |
+
+#### Setup
+
+```bash
+# Install required dependencies
+cd /etc/haraka
+npm install express sqlite3 haraka-plugin-graph haraka-plugin-watch
+
+# Edit config/plugins - add these lines:
+graph
+watch
+
+# Start/restart Haraka
+haraka -c /etc/haraka
+```
+
+**Note:** The graph plugin needs email traffic to populate data. The watch plugin shows live connections immediately.
+
 ### Check Logs
 
 ```bash

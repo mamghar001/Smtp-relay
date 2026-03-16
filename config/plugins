@@ -13,5 +13,9 @@ auth/flat_file
 # data.signatures   # Block emails with spam signatures
 # delay_deny        # Delay rejection responses
 
+# Web monitoring (optional - requires express)
+graph
+watch
+
 # Logging
 process_title
